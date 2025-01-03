@@ -223,6 +223,12 @@ const VerRol = async () => {
         if (data.valido) {
             const url = import.meta.env.VITE_REPORTS_HOST_API + "rol";
             window.open(url, "_blank");
+        } else {
+            showNotify({
+                msg: "Algo salio mal.",
+                color: "negative",
+                icon: "cancel",
+            });
         }
     } catch (e: any) {
         console.error(e);

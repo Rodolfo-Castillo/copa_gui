@@ -33,7 +33,14 @@
                         "
                     />
                 </div>
-                <div class="col-5"></div>
+                <div class="col-5" style="text-align: right">
+                    <q-btn
+                        :disable="isDisabled()"
+                        color="primary"
+                        label="Exportar"
+                        @click="exportarAPDF"
+                    ></q-btn>
+                </div>
             </div>
             <div class="row">
                 <div
@@ -75,6 +82,7 @@
 import { ref, onMounted } from "vue";
 import { useEstadisticaStore } from "@/store/estadisticas";
 import { useCatalogoStore } from "@/store/catalogo";
+import { showNotify, validarToken } from "@/utils/utils";
 
 const estadisticaStore = useEstadisticaStore();
 const catalogoStore = useCatalogoStore();
@@ -132,6 +140,31 @@ const getGrupos = async () => {
         await estadisticaStore.getEstadisticaGrupos(
             categoriaSelected.value.idcategoria
         );
+    } catch (e: any) {
+        console.error(e.message);
+    }
+};
+
+const isDisabled = (): boolean => {
+    if (!categoriaSelected.value) return true;
+    else return false;
+};
+
+const exportarAPDF = async () => {
+    try {
+        const data = await validarToken();
+        if (data.valido) {
+            const url =
+                import.meta.env.VITE_REPORTS_HOST_API +
+                `grupos/${categoriaSelected.value.idcategoria}`;
+            window.open(url, "_blank");
+        } else {
+            showNotify({
+                msg: "Algo salio mal.",
+                color: "negative",
+                icon: "cancel",
+            });
+        }
     } catch (e: any) {
         console.error(e.message);
     }
