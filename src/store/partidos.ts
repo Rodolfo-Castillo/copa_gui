@@ -7,13 +7,13 @@ const ruta = 'partidos/';
 
 export const usePartidosStore = defineStore("partidos", {
     state: () => ({
-        partidos:<any>[],
+        partidos: <any>[],
         isLoading: false,
         msg: "",
         error: false,
     }),
     actions: {
-        async getEquipos(idCategoria:number) {
+        async getEquipos(idCategoria: number) {
             try {
                 this.$state.isLoading = true;
                 const res = await HttpGet(`${ruta}equipos/${idCategoria}`, {});
@@ -36,9 +36,11 @@ export const usePartidosStore = defineStore("partidos", {
                     })
                     i = 1;
                 }
-                for (const [_key, value] of gruposUnicos.entries()) { 
-                    this.savePartidos(partidos["Grupo " + Number(value)],idCategoria)
-                }
+                await Promise.all(
+                    Array.from(gruposUnicos.entries()).map(async ([_key,value]) => {
+                        await this.savePartidos(partidos["Grupo " + Number(value)], idCategoria)
+                    }
+                ));
             } catch (e: any) {
                 this.$state.msg = e.message;
                 this.$state.error = true;
@@ -49,18 +51,14 @@ export const usePartidosStore = defineStore("partidos", {
         async savePartidos(grupo: [],idCategoria:number) {
             try {
                 this.$state.isLoading = true;
-                grupo.map(async (jornada: any) => {
+                await Promise.all(grupo.map(async (jornada: any) => {
                     const params = {
                         idequipolocal: jornada.Local.idequipo,
                         idequipovisitante: jornada.Visitante.idequipo,
-                        idcategoria:idCategoria
+                        idcategoria: idCategoria
                     }
-                    const res = await HttpPost(`${ruta}`, params);
-                    this.$state.partidos = [
-                        ...this.$state.partidos,
-                        res.data
-                    ];
-                })
+                    await HttpPost(`${ruta}`, params);
+                }));
             } catch (e: any) {
                 this.$state.msg = e.message;
                 this.$state.error = true;

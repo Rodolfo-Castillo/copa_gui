@@ -109,7 +109,6 @@ const agregarJugadorAPlantilla = async () => {
                 },
             ];
         }
-        console.log(plantilla.value);
         resetFormPlantilla();
         formJugadoresAPlantilla.value.reset();
         isEdit.value = false;

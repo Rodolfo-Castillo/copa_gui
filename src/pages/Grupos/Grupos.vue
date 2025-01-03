@@ -254,7 +254,10 @@ const handleGetEquipos = async () => {
         await gruposStore.getEquiposCategoria(
             categoriaSelected.value.idcategoria
         );
-        items.value = gruposStore.equipos;
+        items.value = [];
+        if (gruposStore.equipos != null) {
+            items.value = gruposStore.equipos;
+        }
     } catch (e: any) {
         console.error(e);
     }

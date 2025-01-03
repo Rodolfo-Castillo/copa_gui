@@ -21,8 +21,8 @@
                     <template v-slot:top="_props">
                         <q-space></q-space>
                         <q-btn
-                            @click="generarPartdios"
-                            v-if="partidosStore.partidos.length == 0"
+                            @click="generarPartidos"
+                            v-if="partidosStore.partidos == null"
                             color="primary"
                         >
                             Generar Partido</q-btn
@@ -43,6 +43,24 @@
                             <q-td key="categoria" :props="props">{{
                                 props.row.categoria
                             }}</q-td>
+                            <q-td
+                                key="fecha"
+                                :props="props"
+                                style="cursor: pointer"
+                            >
+                                {{ props.row.fecha }}
+                                <q-popup-edit
+                                    v-model="props.row.fecha"
+                                    buttons
+                                    v-slot="scope"
+                                >
+                                    <q-date
+                                        v-model="scope.value"
+                                        mask="YYYY-MM-DD"
+                                    >
+                                    </q-date>
+                                </q-popup-edit>
+                            </q-td>
                             <q-td
                                 key="hora"
                                 :props="props"
@@ -88,6 +106,14 @@
                     <q-tooltip> Ver Jugador De La Plantilla </q-tooltip>
                 </q-btn> -->
                 <q-btn
+                    color="primary"
+                    label="Ver Rol"
+                    v-if="isDisabled()"
+                    @click="VerRol"
+                >
+                    <q-tooltip> Ver Rol </q-tooltip>
+                </q-btn>
+                <q-btn
                     :disable="isDisabled()"
                     color="primary"
                     label="Guardar Horario"
@@ -102,11 +128,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { usePartidosStore } from "@/store/partidos";
-import { showNotify } from "@/utils/utils";
+import { useCatalogoStore } from "@/store/catalogo";
+import { showNotify, validarToken } from "@/utils/utils";
 
 const partidosStore = usePartidosStore();
-
-const categoriaSelected = ref(null);
+const catalogoStore = useCatalogoStore();
 
 const columns = <any>[
     {
@@ -134,16 +160,20 @@ const columns = <any>[
 ];
 const rows = ref([]);
 
-const generarPartdios = async () => {
+const generarPartidos = async () => {
     try {
-        const idCategoria = categoriaSelected.value.idcategoria;
-        await partidosStore.getEquipos(idCategoria);
+        await catalogoStore.listCategorias();
+        await Promise.all(
+            catalogoStore.categorias.map(async (categoria: any) => {
+                await partidosStore.getEquipos(categoria.idcategoria);
+            })
+        );
         showNotify({
             msg: "Partidos Generados.",
             color: "positive",
             icon: "success",
         });
-        rows.value = partidosStore.partidos;
+        await listPartidos();
     } catch (e) {
         console.error(e);
     }
@@ -152,7 +182,8 @@ const generarPartdios = async () => {
 const listPartidos = async () => {
     try {
         await partidosStore.listPartidos();
-        rows.value = partidosStore.partidos;
+        rows.value = [];
+        if (partidosStore.partidos != null) rows.value = partidosStore.partidos;
     } catch (e: any) {
         console.error(e);
     }
@@ -181,6 +212,18 @@ const SaveHorario = () => {
                 icon: "success",
             });
         });
+    } catch (e: any) {
+        console.error(e);
+    }
+};
+
+const VerRol = async () => {
+    try {
+        const data = await validarToken();
+        if (data.valido) {
+            const url = import.meta.env.VITE_REPORTS_HOST_API + "rol";
+            window.open(url, "_blank");
+        }
     } catch (e: any) {
         console.error(e);
     }

@@ -1,5 +1,6 @@
 import { Notify } from 'quasar';
 import { NotifyInterface } from './interfaces';
+import { HttpGet } from './http';
 import robin from 'roundrobin';
 
 export const showNotify = (config:NotifyInterface) => {
@@ -11,6 +12,11 @@ export const showNotify = (config:NotifyInterface) => {
         progress: true,
         actions: [{ icon: 'close', color: 'white' }]
     });
+}
+
+export const validarToken = async () => {
+    const res = await HttpGet(`/verify/`, {});
+    return res.data;
 }
 
 export const validateRoute = async () => {

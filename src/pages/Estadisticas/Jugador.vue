@@ -285,18 +285,20 @@ const columnsExpulsion = <any>[
 ];
 
 const getInfo = async () => {
-    if (tab.value == "goleador")
-        await estadisticaStore.getEstadisticaGoleador(
-            categoriaSelected.value.idcategoria
-        );
-    if (tab.value == "portero")
-        await estadisticaStore.getEstadisticaPortero(
-            categoriaSelected.value.idcategoria
-        );
-    if (tab.value == "expulsiones")
-        await estadisticaStore.getEstadisticaExpulsion(
-            categoriaSelected.value.idcategoria
-        );
+    if (categoriaSelected.value) {
+        if (tab.value == "goleador")
+            await estadisticaStore.getEstadisticaGoleador(
+                categoriaSelected.value.idcategoria
+            );
+        if (tab.value == "portero")
+            await estadisticaStore.getEstadisticaPortero(
+                categoriaSelected.value.idcategoria
+            );
+        if (tab.value == "expulsiones")
+            await estadisticaStore.getEstadisticaExpulsion(
+                categoriaSelected.value.idcategoria
+            );
+    }
 };
 
 onMounted(async () => {
