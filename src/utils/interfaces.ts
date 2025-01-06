@@ -21,3 +21,9 @@ export interface EquipoInterface{
     entrenador: string;
     idcategoria: number;
 }
+
+export interface CopaInterface{
+    idcopa: number;
+    copa: string;
+    activo: any;
+}

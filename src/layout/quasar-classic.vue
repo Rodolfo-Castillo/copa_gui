@@ -91,6 +91,13 @@
 
                         <q-item-section> Bitácora </q-item-section>
                     </q-item>
+                    <q-item clickable v-ripple to="/copa">
+                        <q-item-section avatar>
+                            <q-icon name="emoji_events" />
+                        </q-item-section>
+
+                        <q-item-section> Copa </q-item-section>
+                    </q-item>
                 </q-list>
             </q-scroll-area>
 

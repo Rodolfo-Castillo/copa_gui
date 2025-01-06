@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { validateRoute } from '@/utils/utils'
+import { validarToken } from '@/utils/utils'
 
 const routes = [
     {
         path: '/login',
         component: () => import('@/layout/AuthLayout.vue'),
+        meta:{auth:false},
         children: [{
             path: '',
             name: 'Login',
@@ -15,6 +16,7 @@ const routes = [
     {
         path: '/',
         component: () => import('@/layout/quasar-classic.vue'),
+        meta:{auth:true},
         children: [
             {
                 path: '',
@@ -80,6 +82,11 @@ const routes = [
                 path: '/bitacora',
                 name: 'Bitacora',
                 component: () => import('@/pages/Bitacora/Bitacora.vue'),
+            },
+            {
+                path: '/copa',
+                name: 'Copa',
+                component: () => import('@/pages/Copa/Copa.vue'),
             }
         ]
     },
@@ -110,7 +117,7 @@ router.beforeEach(async (to: any, _from: any, next: any) => {
         next();
     }
     else {
-        if (await validateRoute()) {
+        if (await validarToken()) {
             next();
         } else {
             localStorage.removeItem("token");
