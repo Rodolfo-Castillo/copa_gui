@@ -87,6 +87,11 @@ const routes = [
                 path: '/copa',
                 name: 'Copa',
                 component: () => import('@/pages/Copa/Copa.vue'),
+            },
+            {
+                path: '/permisos',
+                name: 'Permisos',
+                component: () => import('@/pages/Config/Permisos.vue'),
             }
         ]
     },
@@ -121,6 +126,7 @@ router.beforeEach(async (to: any, _from: any, next: any) => {
             next();
         } else {
             localStorage.removeItem("token");
+            localStorage.removeItem("permisos");
             next("/login");
         }
     }

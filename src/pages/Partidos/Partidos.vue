@@ -22,8 +22,12 @@
                         <q-space></q-space>
                         <q-btn
                             @click="generarPartidos"
-                            v-if="partidosStore.partidos == null"
+                            v-if="
+                                partidosStore.verificado &&
+                                havePermission('C001')
+                            "
                             color="primary"
+                            :disable="partidosStore.isLoading"
                         >
                             Generar Partido</q-btn
                         >
@@ -44,6 +48,7 @@
                                 props.row.categoria
                             }}</q-td>
                             <q-td
+                                v-if="havePermission('C002')"
                                 key="fecha"
                                 :props="props"
                                 style="cursor: pointer"
@@ -62,6 +67,7 @@
                                 </q-popup-edit>
                             </q-td>
                             <q-td
+                                v-if="havePermission('C002')"
                                 key="hora"
                                 :props="props"
                                 style="cursor: pointer"
@@ -76,6 +82,7 @@
                                 </q-popup-edit>
                             </q-td>
                             <q-td
+                                v-if="havePermission('C002')"
                                 key="cancha"
                                 :props="props"
                                 style="cursor: pointer"
@@ -102,19 +109,17 @@
                 </q-table>
             </q-card-section>
             <q-card-actions align="right">
-                <!-- <q-btn icon="visibility" color="primary" flat round @click="getJugador(props.row)">
-                    <q-tooltip> Ver Jugador De La Plantilla </q-tooltip>
-                </q-btn> -->
                 <q-btn
                     color="primary"
                     label="Ver Rol"
-                    v-if="isDisabled()"
+                    v-if="isDisabled() && havePermission('C003')"
                     @click="VerRol"
                 >
                     <q-tooltip> Ver Rol </q-tooltip>
                 </q-btn>
                 <q-btn
                     :disable="isDisabled()"
+                    v-if="havePermission('C004')"
                     color="primary"
                     label="Guardar Horario"
                     @click="SaveHorario"
@@ -129,7 +134,7 @@
 import { ref, onMounted } from "vue";
 import { usePartidosStore } from "@/store/partidos";
 import { useCatalogoStore } from "@/store/catalogo";
-import { showNotify, validarToken } from "@/utils/utils";
+import { showNotify, validarToken, havePermission } from "@/utils/utils";
 
 const partidosStore = usePartidosStore();
 const catalogoStore = useCatalogoStore();
@@ -235,9 +240,19 @@ const VerRol = async () => {
     }
 };
 
+const verificar = async () => {
+    try {
+        await partidosStore.verificar();
+        console.log(partidosStore.verificado);
+    } catch (e: any) {
+        console.error(e);
+    }
+};
+
 onMounted(async () => {
     try {
         await listPartidos();
+        await verificar();
     } catch (e: any) {
         console.error(e);
     }

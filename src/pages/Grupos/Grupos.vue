@@ -36,6 +36,7 @@
                             flat
                             round
                             icon="search"
+                            v-if="havePermission('B001')"
                             @click="handleGetEquipos"
                         >
                             <q-tooltip>Buscar equipos</q-tooltip>
@@ -189,8 +190,10 @@
                     flat
                     label="Cancelar"
                     :disabled="gruposStore.isLoading || catalogoStore.isLoading"
+                    @click="handleCancel()"
                 />
                 <q-btn
+                    v-if="havePermission('B002')"
                     color="primary"
                     label="Guardar"
                     :disabled="gruposStore.isLoading || catalogoStore.isLoading"
@@ -204,7 +207,7 @@
 import { ref, onMounted, computed } from "vue";
 import { useCatalogoStore } from "@/store/catalogo";
 import { useGruposStore } from "@/store/grupos";
-import { showNotify } from "@/utils/utils";
+import { showNotify, havePermission } from "@/utils/utils";
 
 const categoriaSelected = <any>ref(null);
 const catalogoStore = useCatalogoStore();
@@ -247,6 +250,12 @@ const onDrop = (evt: any, grupo: any) => {
     const itemID = evt.dataTransfer.getData("itemID");
     const item = items.value.find((item: any) => item.idequipo == itemID);
     item.grupo = grupo;
+};
+
+const handleCancel = () => {
+    items.value.map((item: any) => {
+        item.grupo = 0;
+    });
 };
 
 const handleGetEquipos = async () => {

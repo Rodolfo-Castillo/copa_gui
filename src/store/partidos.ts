@@ -1,13 +1,14 @@
 // Utilities
 import { defineStore } from "pinia";
 import { HttpGet, HttpPost, HttpPut } from "@/utils/http";
-import { generateRounds, transformarHorario } from "@/utils/utils";
+import { generateRounds, transformarHorario, transformarBitToBoolean } from "@/utils/utils";
 
 const ruta = 'partidos/';
 
 export const usePartidosStore = defineStore("partidos", {
     state: () => ({
         partidos: <any>[],
+        verificado: false,
         isLoading: false,
         msg: "",
         error: false,
@@ -94,6 +95,18 @@ export const usePartidosStore = defineStore("partidos", {
                     }
                 });
                 this.$state.partidos = newArray;
+            } catch (e: any) {
+                this.$state.msg = e.message;
+                this.$state.error = true;
+            } finally {
+                this.$state.isLoading = false;
+            }
+        },
+        async verificar() {
+            try {
+                this.$state.isLoading = true;
+                const res = await HttpGet(`${ruta}verificar`, {});
+                this.$state.verificado = transformarBitToBoolean(res.data.verificar);
             } catch (e: any) {
                 this.$state.msg = e.message;
                 this.$state.error = true;

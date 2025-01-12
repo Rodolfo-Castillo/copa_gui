@@ -15,7 +15,7 @@
             >
                 <span class="text-h6">
                     {{ gol.nombre }}
-                    {{ gol.goles }}
+                    ({{ gol.goles }})
                     <q-icon name="sports_soccer"></q-icon>
                 </span>
             </div>
@@ -47,8 +47,8 @@
             >
                 <span class="text-h6">
                     <q-icon name="sports_soccer"></q-icon>
+                    ({{ gol.goles }})
                     {{ gol.nombre }}
-                    {{ gol.goles }}
                 </span>
             </div>
             <div

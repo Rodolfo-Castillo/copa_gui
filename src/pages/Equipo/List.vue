@@ -12,6 +12,7 @@
             <q-card-section>
                 <q-card-section align="right">
                     <q-btn
+                        v-if="havePermission('A002')"
                         color="primary"
                         round
                         icon="add"
@@ -21,7 +22,7 @@
                         <q-tooltip> Agregar Equipo </q-tooltip>
                     </q-btn>
                 </q-card-section>
-                <div class="row">
+                <div class="row" v-if="havePermission('A001')">
                     <div
                         class="col-3 col-md-2 q-pl-md q-mt-md q-py-xs"
                         v-for="(equipo, i) in store.equipos"
@@ -44,6 +45,7 @@ import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useEquipoStore } from "@/store/equipo";
 import TarjetaEquipo from "@/components/TarjetaEquipo.vue";
+import { havePermission } from "@/utils/utils";
 
 const router = useRouter();
 const store = useEquipoStore();

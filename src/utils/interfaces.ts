@@ -27,3 +27,9 @@ export interface CopaInterface{
     copa: string;
     activo: any;
 }
+
+export interface PermisoInterface{
+    idpermiso: number;
+    permiso: string;
+    tiene: any;
+}

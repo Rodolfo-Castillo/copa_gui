@@ -9,6 +9,7 @@ import {
     showNotify,
     urlToFile,
     transformarBitToBoolean,
+    havePermission,
 } from "@/utils/utils";
 import { EquipoInterface } from "@/utils/interfaces";
 import ImagePreview from "@/components/ImagePreview.vue";
@@ -507,6 +508,7 @@ onMounted(async () => {
             </q-card-section>
             <q-card-section align="right">
                 <q-btn
+                    v-if="havePermission('A005')"
                     color="primary"
                     icon="add"
                     round
@@ -589,6 +591,7 @@ onMounted(async () => {
                                     <q-separator class="q-mt-sm" />
                                     <q-card-actions align="right">
                                         <q-btn
+                                            v-if="havePermission('A004')"
                                             icon="visibility"
                                             color="primary"
                                             flat
@@ -600,6 +603,7 @@ onMounted(async () => {
                                             </q-tooltip>
                                         </q-btn>
                                         <q-btn
+                                            v-if="havePermission('A006')"
                                             icon="delete"
                                             color="red"
                                             flat

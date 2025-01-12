@@ -9,9 +9,9 @@
                     <q-breadcrumbs-el label="Expulsiones" icon="home" />
                 </q-breadcrumbs>
             </q-card-section>
-            <q-card-section>
+            <q-card-section v-if="havePermission('F001')">
                 <q-table
-                    title="Partidos"
+                    title="Expulsados"
                     :rows="expulsionesStore.expulsados"
                     row-key="idjugador"
                     :columns="columns"
@@ -40,6 +40,7 @@
             </q-card-section>
             <q-card-actions align="right">
                 <q-btn
+                    v-if="havePermission('F002')"
                     color="primary"
                     label="Guardar"
                     @click="
@@ -55,6 +56,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useExpulsionesStore } from "@/store/expulsiones";
+import { havePermission } from "@/utils/utils";
 
 const expulsionesStore = useExpulsionesStore();
 

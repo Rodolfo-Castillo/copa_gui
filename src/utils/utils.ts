@@ -173,3 +173,11 @@ export const getFinalsMatches = async (partidos: any, equipos: any) => {
     data.contestants = contestants;
     return data;
 }
+
+export const havePermission = (cvePermiso: string) => {
+    const permisos = localStorage.getItem('permisos');
+    if (permisos.includes(cvePermiso)) { 
+        return true;
+    }
+    return false;
+}

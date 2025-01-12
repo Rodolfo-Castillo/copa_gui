@@ -44,7 +44,9 @@
                         <q-space></q-space>
                         <q-btn
                             @click="generarPartdios"
-                            v-if="partidosStore.isValid"
+                            v-if="
+                                partidosStore.isValid && havePermission('C010')
+                            "
                             color="primary"
                         >
                             Generar Partido</q-btn
@@ -69,6 +71,7 @@
                                 props.row.fase
                             }}</q-td>
                             <q-td
+                                v-if="havePermission('C011')"
                                 key="fecha"
                                 :props="props"
                                 style="cursor: pointer"
@@ -87,6 +90,7 @@
                                 </q-popup-edit>
                             </q-td>
                             <q-td
+                                v-if="havePermission('C011')"
                                 key="hora"
                                 :props="props"
                                 style="cursor: pointer"
@@ -101,6 +105,7 @@
                                 </q-popup-edit>
                             </q-td>
                             <q-td
+                                v-if="havePermission('C011')"
                                 key="cancha"
                                 :props="props"
                                 style="cursor: pointer"
@@ -127,12 +132,10 @@
                 </q-table>
             </q-card-section>
             <q-card-actions align="right">
-                <!-- <q-btn icon="visibility" color="primary" flat round @click="getJugador(props.row)">
-                    <q-tooltip> Ver Jugador De La Plantilla </q-tooltip>
-                </q-btn> -->
                 <q-btn
                     :disable="isDisabled()"
                     color="primary"
+                    v-if="havePermission('C013')"
                     label="Guardar Horario"
                     @click="SaveHorario"
                 >
@@ -146,7 +149,7 @@
 import { ref, onMounted } from "vue";
 import { usePartidosFinalesStore } from "@/store/partidosfinales";
 import { useCatalogoStore } from "@/store/catalogo";
-import { showNotify } from "@/utils/utils";
+import { showNotify, havePermission } from "@/utils/utils";
 
 const partidosStore = usePartidosFinalesStore();
 const catalogoStore = useCatalogoStore();

@@ -3,7 +3,7 @@
         <q-header elevated class="bg-cyan-8">
             <q-toolbar>
                 <q-btn flat @click="toggleDrawer" round dense icon="menu" />
-                <q-toolbar-title>Copa</q-toolbar-title>
+                <q-toolbar-title class="text-weight-bold">Copa</q-toolbar-title>
                 <q-btn dense flat label="Salir" @click="logOut" />
                 <div style="width: 15px"></div>
             </q-toolbar>
@@ -26,7 +26,12 @@
                         <q-item-section> Equipos </q-item-section>
                     </q-item>
 
-                    <q-item clickable v-ripple to="/grupos">
+                    <q-item
+                        clickable
+                        v-ripple
+                        to="/grupos"
+                        v-if="havePermission('B001')"
+                    >
                         <q-item-section avatar>
                             <q-icon name="groups_2" />
                         </q-item-section>
@@ -63,7 +68,12 @@
                         <q-item-section> Finales </q-item-section>
                     </q-item>
 
-                    <q-item clickable v-ripple to="/expulsiones">
+                    <q-item
+                        v-if="havePermission('F001')"
+                        clickable
+                        v-ripple
+                        to="/expulsiones"
+                    >
                         <q-item-section avatar>
                             <q-icon name="crop_portrait" />
                         </q-item-section>
@@ -72,31 +82,64 @@
                     </q-item>
 
                     <q-expansion-item
+                        v-if="havePermission('G001') || havePermission('G002')"
                         expand-separator
                         icon="analytics"
                         label="Estadisticas"
                     >
-                        <q-item clickable v-ripple to="/estadisticas/grupo">
+                        <q-item
+                            v-if="havePermission('G001')"
+                            clickable
+                            v-ripple
+                            to="/estadisticas/grupo"
+                        >
                             <q-item-section> Grupos </q-item-section>
                         </q-item>
-                        <q-item clickable v-ripple to="/estadisticas/jugador">
+                        <q-item
+                            v-if="havePermission('G002')"
+                            clickable
+                            v-ripple
+                            to="/estadisticas/jugador"
+                        >
                             <q-item-section> Jugador </q-item-section>
                         </q-item>
                     </q-expansion-item>
 
-                    <q-item clickable v-ripple to="/bitacora">
+                    <q-item
+                        v-if="havePermission('H001')"
+                        clickable
+                        v-ripple
+                        to="/bitacora"
+                    >
                         <q-item-section avatar>
                             <q-icon name="content_paste" />
                         </q-item-section>
 
                         <q-item-section> Bitácora </q-item-section>
                     </q-item>
-                    <q-item clickable v-ripple to="/copa">
+                    <q-item
+                        v-if="havePermission('I001')"
+                        clickable
+                        v-ripple
+                        to="/copa"
+                    >
                         <q-item-section avatar>
                             <q-icon name="emoji_events" />
                         </q-item-section>
 
                         <q-item-section> Copa </q-item-section>
+                    </q-item>
+                    <q-item
+                        v-if="havePermission('J001')"
+                        clickable
+                        v-ripple
+                        to="/permisos"
+                    >
+                        <q-item-section avatar>
+                            <q-icon name="checklist_rtl" />
+                        </q-item-section>
+
+                        <q-item-section> Permisos </q-item-section>
                     </q-item>
                 </q-list>
             </q-scroll-area>
@@ -109,13 +152,7 @@
                 <div
                     class="absolute-bottom bg-transparent q-pa-md q-flex flex-center column"
                 >
-                    <!-- <q-avatar size="65px" class="q-mb-sm">
-                        <img src="/images/logo.jpg" />
-                    </q-avatar>
-                    <div class="text-weight-bold text-center">
-                        Confia Health
-                    </div>-->
-                    <div class="text-center">Copa</div>
+                    <div class="text-center text-weight-bold">Copa</div>
                 </div>
             </q-img>
         </q-drawer>
@@ -132,6 +169,7 @@
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 import { useAuthStore } from "@/store/auth";
+import { havePermission } from "@/utils/utils";
 
 const router = <any>useRouter();
 const drawer = ref(true);

@@ -15,6 +15,11 @@ export const useAuthStore = defineStore("auth", {
                 const res = await HttpPost("signin/", formData);
                 if (res.data.token) {
                     localStorage.setItem("token", res.data.token);
+                    let permisos = <any>[];
+                    res.data.permisos.map((permiso: any) => {
+                        permisos.push(permiso.cvepermiso);
+                    });
+                    localStorage.setItem("permisos", permisos);
                     window.location.href = "/";
                 }
             }catch(e:any){

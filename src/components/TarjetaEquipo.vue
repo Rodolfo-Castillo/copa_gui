@@ -16,6 +16,7 @@
                     round
                     color="cyan-8"
                     icon="edit"
+                    v-if="havePermission('A002')"
                     @click="router.push(`/equipo/${idequipo}`)"
                 >
                     <q-tooltip> Editar Equipo </q-tooltip>
@@ -25,6 +26,7 @@
                     round
                     style="color: #ec5454"
                     icon="delete"
+                    v-if="havePermission('A003')"
                     @click="handleDeleteEquipo(idequipo)"
                 >
                     <q-tooltip> Eliminar Equipo </q-tooltip>
@@ -36,6 +38,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { useEquipoStore } from "@/store/equipo";
+import { havePermission } from "@/utils/utils";
 
 const store = useEquipoStore();
 const router = useRouter();
