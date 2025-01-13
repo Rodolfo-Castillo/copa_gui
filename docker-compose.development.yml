@@ -1,0 +1,11 @@
+services:
+    copa-gui:
+        build:
+            context: .
+            dockerfile: Dockerfile.production
+        restart: unless-stopped
+        container_name: copa-gui
+        env_file:
+            - .env
+        ports:
+            - "4099:80"
