@@ -24,7 +24,7 @@ export const useEstadisticaStore = defineStore("estadistica", {
                     res.data.estadistica.filter((equipo: any) => equipo.grupo == 2),
                     res.data.estadistica.filter((equipo: any) => equipo.grupo == 3),
                     res.data.estadistica.filter((equipo:any) => equipo.grupo == 4)];
-            } catch (e) { 
+            } catch (e) {
                 this.$state.msg = e.message;
                 this.$state.error = true;
             } finally {
@@ -50,7 +50,7 @@ export const useEstadisticaStore = defineStore("estadistica", {
                 const res = await HttpGet(`${ruta}portero/${idcategoria}`, {});
                 if(res.data.porteros !== null)
                 this.$state.porteros = res.data.porteros;
-            } catch (e) { 
+            } catch (e) {
                 this.$state.msg = e.message;
                 this.$state.error = true;
             } finally {
@@ -63,12 +63,15 @@ export const useEstadisticaStore = defineStore("estadistica", {
                 const res = await HttpGet(`${ruta}expulsion/${idcategoria}`, {});
                 if(res.data.expulsiones !== null)
                 this.$state.expulsiones = res.data.expulsiones;
-            } catch (e) { 
+            } catch (e) {
                 this.$state.msg = e.message;
                 this.$state.error = true;
             } finally {
                 this.$state.isLoading = false;
             }
+        },
+        setGrupos (data:Array<any> = []){
+            this.$state.grupos = data;
         },
         setError() {
             this.$state.error = false;

@@ -157,7 +157,7 @@ const exportarAPDF = async () => {
             const url =
                 import.meta.env.VITE_REPORTS_HOST_API +
                 `grupos/${categoriaSelected.value.idcategoria}`;
-            window.open(url, "_blank");
+            window.open(`${url}`, "_blank");
         } else {
             showNotify({
                 msg: "Algo salio mal.",
@@ -172,6 +172,7 @@ const exportarAPDF = async () => {
 
 onMounted(async () => {
     try {
+        estadisticaStore.setGrupos();
         await catalogoStore.listCategorias();
     } catch (e: any) {
         console.error(e);

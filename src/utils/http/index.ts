@@ -14,10 +14,10 @@ HTTP.interceptors.request.use((request: any) => {
 HTTP.interceptors.response.use((response: any) => {
     return response;
 }, (error: any) => {
-    if (error.status === 403 || error.status == 401 ) {
-        showNotify({ msg: error.response.data.message, color: 'negative', icon: 'cancel' });
-        window.location.href = '/login';
-    }
+    // if (error.status === 403 || error.status == 401 ) {
+    //     showNotify({ msg: error.response.data.message, color: 'negative', icon: 'cancel' });
+    //     window.location.href = '/login';
+    // }
     return error;
 });
 

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { validarToken } from '@/utils/utils'
 
-const routes = [
+const routes = <any>[
     {
         path: '/login',
         component: () => import('@/layout/AuthLayout.vue'),
@@ -106,9 +106,12 @@ const routes = [
         component: () => import('@/pages/404/NotFound.vue'),
         children: []
     },
+    {
+        path: '/resultadosTorneo',
+        component: () => import('@/pages/Publico/Publico.vue'),
+        meta: {auth:false}
+    }
 ];
-
-//
 
 const base_url = import.meta.env.VITE_BASE_URL || "";
 
@@ -118,10 +121,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to: any, _from: any, next: any) => {
-    if (!to.meta.auth) {
-        next();
-    }
-    else {
+    if (to.meta.auth) {
         if (await validarToken()) {
             next();
         } else {
@@ -129,6 +129,9 @@ router.beforeEach(async (to: any, _from: any, next: any) => {
             localStorage.removeItem("permisos");
             next("/login");
         }
+    }
+    else {
+        next();
     }
 });
 
