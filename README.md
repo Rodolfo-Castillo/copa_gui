@@ -37,7 +37,7 @@ El proyecto está desarrollado con una arquitectura moderna y escalable, utiliza
 | **Vue 3** | ^3.x | **Front-end Framework:** Reactividad y componentes con Composition API. |
 | **Pinia** | ^2.x | **Gestión de Estado:** Manejo centralizado, ligero y modular de los datos del torneo. |
 | **Vue Router** | ^4.x | **Navegación:** Permite la transición fluida entre la vista de Grupos, Play-offs y Estadísticas. |
-| **[Añade tu librería CSS/UI si usas una]** | [Versión] | [Estilos y Componentes de UI] |
+| **Quasar** | ^2.x | **Estilos y Componentes de UI** |
 
 ---
 
@@ -48,16 +48,16 @@ Sigue estos pasos para configurar el entorno de desarrollo y ejecutar la aplicac
 ### Requisitos
 
 * [Node.js](https://nodejs.org/) (versión LTS recomendada)
-* npm o yarn
+* pnpm
 
 ### 1. Obtener el Código
 
 ```bash
-git clone https://github.com/Rodolfo-Castillo/copa_gui
-cd copa_gui
+* git clone https://github.com/Rodolfo-Castillo/copa_gui
+* cd copa_gui
 
 ### 2. Instalación
-pnpm install
+* pnpm install
 
 ### 3. Ejecución
-pnpm run dev
+* pnpm run dev
