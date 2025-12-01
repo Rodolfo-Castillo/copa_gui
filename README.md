@@ -17,6 +17,7 @@ La aplicación permite gestionar el flujo completo de un torneo, incluyendo:
 ### Fases de la Competición
 * **Clasificación por Categorías:** Manejo de múltiples categorías (e.g., Infantil, Juvenil, Amateur) de forma simultánea.
 * **Creación de Grupos:** Distribución de equipos en grupos para la fase inicial.
+* **Creación de Enfrentamientos:** Elaboración de rol de juegos asi como su impresión.
 * **Fase de Grupos:** Cálculo de posiciones y gestión de resultados.
     * **Regla de Clasificación:** Los **dos (2) primeros equipos** de cada grupo avanzan a la siguiente ronda.
 * **Fase Eliminatoria (Play-offs):** Estructura de partidos de eliminación directa hasta definir al campeón (Cuartos de Final, Semifinales, Final).
